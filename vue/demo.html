@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Vue不常用但是有用的组件例子</title>
+	<style type="text/css">
+		[v-cloak] {
+		     display: none;
+		     /* v-cloak这个属性会在页面渲染前作用于对应dom 在渲染完毕这个里面的样式将被移除 */
+		}
+
+	</style>
+</head>
+<body >
+<div id="demo">
+	<ul v-cloak>
+		<li v-for="a in dataList">{{a}}</li>
+	</ul>
+	<button  @click="demo">demo\demo</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script>
+		var demo1 = new Vue({
+			el: "#demo",
+			data:{
+				dataList:[1,2,3,4]
+			},
+			methods:{
+				demo: function(){
+					//对数据的值进行改变时需要使用下面的代码
+					//this.dataList[0] = 7;
+					Vue.set(this.dataList,0,7);
+					console.log(this.dataList);
+				}
+			}
+
+		})
+
+		
+		
+	</script>
+</body>
+</html>
