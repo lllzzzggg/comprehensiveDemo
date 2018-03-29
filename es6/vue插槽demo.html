@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>插槽demo</title>
+</head>
+<body>
+<div id="exp1">
+	<my-com></my-com>
+</div>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+	<script type="text/javascript">
+    //单个插槽
+    //子组件，备用内容在子组件的作用域内编译，并且只有在宿主元素为空时，且没有要插入的内容时才显示备用内容
+    Vue.component('child-com',{
+        template:`<div class="container">
+			  <header>
+			    <slot name="header"></slot>
+			  </header>
+			  <main>
+			    <slot>111</slot>
+			  </main>
+			  <footer>
+			    <slot name="footer"></slot>
+			  </footer>
+			</div>`
+    });
+    //父组件
+    Vue.component('my-com',{
+        template:'<div><h1>我是父组件的标题</h1>' +
+        '<child-com>' +
+        '<p slot= "header">这是一些初始内容</p>' +
+        '<p slot= "footer">这是另外一些初始内容</p>' +
+        '</child-com>' +
+        '</div>'
+    });
+    var exp1 = new Vue({
+        el:'#exp1'
+    })
+</script>
+</body>
+</html>

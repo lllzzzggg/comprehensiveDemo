@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Promise配合GET SET方法实现AJXA链式调用并返回请求时间</title>
+</head>
+<body>
+<h2>Promise配合GET SET方法实现AJXA链式调用并返回请求时间</h2>
+	<script type="text/javascript">
+	function Field(){
+		this.beginData = Date.parse(new Date()); 
+    	this._id = 0;
+    	this._date = Date.parse(new Date()); 
+	} 
+	Field.prototype = {  
+	    get id(){  
+	        return this._id;  
+	    },  
+	    set id(val){  
+	        this._id = ++this._id;  
+	    },
+	    get date(){  
+	        return this._date;  
+	    },  
+	    set date(val){
+	    	console.log("事件差（毫秒）=" + (val - this._date));
+	        this._date = val;  
+	    }
+
+	};
+	let f = new Field();
+	let ajaxPromise = (type = "GET",url,data) =>{
+		return new Promise((resolve, reject) => {
+			url ? null :  reject("url为空");
+			//用settimeout 模仿ajax异步回掉
+			//可以将下面的回掉函数种的代码写入到ajax succe中 并写入自己的实现逻辑
+			setTimeout(() =>{
+				let callBack = "我是返回值="+f.id;
+				f.id = 1;
+				resolve(callBack)
+			}, 1000)
+		});
+		
+	}
+	ajaxPromise(undefined,"url"+f.id,{ a : f.id}).then(()=>{
+		f.date = Date.parse(new Date()); 
+		return ajaxPromise(undefined,"url"+f.id,{ a : f.id})
+	}).then((callBack)=>{
+		f.date = Date.parse(new Date()); 
+		return ajaxPromise(undefined,"url"+f.id,{ a : f.id})
+	}).then((callBack)=>{
+		f.date = Date.parse(new Date()); 
+		return ajaxPromise(undefined,"url"+f.id,{ a : f.id})
+	}).then((callBack)=>{
+		f.date = Date.parse(new Date()); 
+		return ajaxPromise(undefined,"url"+f.id,{ a : f.id})
+	}).then((callBack)=>{
+		f.date = Date.parse(new Date()); 
+		console.log("总时差="+(Date.parse(new Date()) - f.beginData));
+		return ajaxPromise(undefined,"url"+f.id,{ a : f.id})
+	}).catch((err)=>{
+		console.log(err);
+	})
+
+
+
+
+
+	
+
+	</script>
+</body>
+</html>
