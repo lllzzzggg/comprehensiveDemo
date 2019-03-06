@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>Document</title>
+	<style>
+		.container{
+			/*transform: translateY(-35px);*/
+		}
+		.head{
+			width: 100%;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+		}
+
+		.box{
+			width: 100%;
+			height: 1300px;
+			border:1px solid #000000;
+			
+		}
+		
+
+	</style>
+</head>
+<body>
+<!-- @touchstart.stop.prevent="touchstart" @touchmove.stop.prevent="touchmove" @touchend.stop.prevent="touchend"  -->
+	<div class="container" id="container" 
+	 @touchstart="touchstart"  @touchmove="touchmove"  @touchend="touchend"
+	:style="{transform: `translateY(${translateY}px)`}">
+		<div class="head">
+			下拉刷新...
+		</div>
+		<div class="box">
+			<p>1</p>
+			<p>2</p>
+			<p>3</p>
+			<p>4</p>
+			<p>5</p>
+			<p>6</p>
+			<p>7</p>
+			<p>8</p>
+			<p>9</p>
+			<p>10</p>
+			<p>11</p>
+			<p>12</p>
+			<p>13</p>
+			<p>14</p>
+			<p>15</p>
+			<p>16</p>
+			<p>17</p>
+		</div>
+	</div>
+	 <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+	<script>
+	let app = new Vue({
+		el: "#container",
+		data: {
+			beginY: 0,
+			damping: 10,
+			beginTranslateY: -35,
+			translateY:-35
+
+		},
+		methods:{
+			touchstart(e){
+				app.beginY = e.touches[0].clientY
+			},
+			touchmove(e){
+				
+				let touchy = e.touches[0].clientY
+				
+				if(app.translateY < 0 ){
+					if(document.documentElement && document.documentElement.scrollTop == 0){
+						let cha = touchy - app.beginY
+						app.translateY = app.translateY + (cha/40)
+					}else if(document.body.scrollTop == 0){
+						let cha = touchy - app.beginY
+						app.translateY = app.translateY + (cha/40)
+					}
+					
+				}
+				
+			},
+			touchend(){
+				app.translateY = app.beginTranslateY
+			}
+		}
+	})
+
+
+	</script>
+</body>
+</html>
