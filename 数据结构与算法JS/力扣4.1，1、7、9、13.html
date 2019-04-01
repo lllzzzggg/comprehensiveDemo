@@ -81,11 +81,10 @@
 
 			let keyList = Object.keys(baseData)
 			let sumNum = 0
+			let l = s.length
 			// debugger;
-			for (let index = 0; index < s.length; index++) {
-				if(s.length == 1 ){
-					sumNum += baseData[s[index]]
-				}else if(index == s.length - 1){
+			for (let index = 0; index < l; index++) {
+			if(index == l - 1){
 					sumNum += baseData[s[index]]
 				}else if(getIndex(keyList, s[index]) >= getIndex(keyList, s[index + 1])){
 					sumNum += baseData[s[index]]
