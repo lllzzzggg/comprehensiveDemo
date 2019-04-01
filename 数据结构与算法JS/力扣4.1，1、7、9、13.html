@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script>
+		/**
+		* 1两数之和
+		* @param {number[]} nums
+		* @param {number} target
+		* @return {number[]}
+		*/
+		var twoSum = function(nums, target) {
+			let subscripts = new Array();
+			for (let i = 0; i < nums.length; i++) {
+				if(subscripts.includes(i) || subscripts.includes(i + 1)){
+					continue;
+				}
+				for (let j = i + 1; j < nums.length; j++) {
+					if(target == nums[i] + nums[j]){
+						subscripts.push(i)
+						subscripts.push(j)
+						break;
+					}
+				}
+			}
+			return subscripts    
+		};
+		/**
+		* 整数反转
+		* @param {number} x
+		* @return {number}
+		*/
+		var reverse = function(x) {
+			let plusMinus = ""
+			if(x < 0){
+				plusMinus = "-"
+			}
+			let newNumber = Number(`${plusMinus}${String(Math.abs(x)).split("").reverse().join("")}`)
+			if(newNumber <  Math.pow(-2, 31) || newNumber > (Math.pow(2, 31) - 1)){
+				return 0;
+			}else{
+				return newNumber;
+			}
+
+		};
+
+		/**
+		* 回文数
+		* @param {number} x
+		* @return {boolean}
+		*/
+		var isPalindrome = function(x) {
+			let str = String(x)
+			let l = str.length
+			for (let i = 0; i < l; i++) {
+				if(str[i] != str[l -1 - i]){
+					return false
+				}
+			}
+			return true;
+		};
+		
+		/**
+		* 罗马数字转整数
+		* @param {string} s
+		* @return {number}
+		*/
+		var romanToInt = function(s) {
+			let baseData = {
+				"I": 1,
+				"V": 5,
+				"X": 10,
+				"L": 50,
+				"C": 100,
+				"D": 500,
+				"M": 1000
+			}
+
+			let keyList = Object.keys(baseData)
+			let sumNum = 0
+			// debugger;
+			for (let index = 0; index < s.length; index++) {
+				if(s.length == 1 ){
+					sumNum += baseData[s[index]]
+				}else if(index == s.length - 1){
+					sumNum += baseData[s[index]]
+				}else if(getIndex(keyList, s[index]) >= getIndex(keyList, s[index + 1])){
+					sumNum += baseData[s[index]]
+				}else{
+					sumNum -= baseData[s[index]]
+				}
+			}
+
+			function getIndex(keyList, key){
+				for (let index = 0; index < keyList.length; index++) {
+					if(key ==  keyList[index]){
+						return index
+					}
+				}
+			}
+			return Math.abs(sumNum) 
+		};
+		console.log(romanToInt("IV"))
+				
+
+
+
+
+	</script>
+</body>
+</html>
