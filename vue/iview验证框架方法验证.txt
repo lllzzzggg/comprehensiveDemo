@@ -1,0 +1,9 @@
+ expression: [
+          { validator:(rule,value,callback)=>{
+              if(this.form.checkType == "STATIC" && !this.form.expression){
+                   return callback(new Error("不可为空"))
+              }else{
+                   return callback()
+              }
+          }, trigger: 'blur' }
+      ],
