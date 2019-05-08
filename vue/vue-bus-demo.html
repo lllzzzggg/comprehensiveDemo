@@ -12,7 +12,7 @@
     
     <div id="app">
         <component1></component1>
-        <component2></component2>
+        <component2 style="margin-top:20px;"></component2>
     </div>
     <script>
         let BUS = new Vue()
@@ -26,14 +26,23 @@
             <div>
                 <h1>我是bus消息接收</h1>
                 <p>{{busMsg}}</p>
+                <button @click="busOff">移除bus消息</button>
             </div>
         `
 
         Vue.component('component1', {
+            data(){
+                return {
+                    num: 0,
+                }
+                
+            },
             methods:{
                 doBus(){
-                    BUS.$emit('msg','hello-bus');
-                }
+                    BUS.$emit('msg','hello-bus'+ this.num);
+                    this.num++;
+                },
+               
             },
             template: component1Html
         })
@@ -48,6 +57,11 @@
                 BUS.$on("msg",(msg)=>{
                     this.busMsg = msg
                 })
+            },
+            methods:{
+                busOff(){
+                    BUS.$off('msg')
+                }
             },
             template: component2Html
         })
