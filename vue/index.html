@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/iview/dist/styles/iview.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+    <script src="https://unpkg.com/iview/dist/iview.min.js"></script>
+
+</head>
+<body>
+    
+    <div id="app">
+        <component1></component1>
+        <component2></component2>
+    </div>
+    <script>
+        let BUS = new Vue()
+        let component1Html = `
+            <div>
+                <h1>我是bus消息发起</h1>
+                <button @click="doBus">发起bus消息</button>
+            </div>
+        `
+        let component2Html = `
+            <div>
+                <h1>我是bus消息接收</h1>
+                <p>{{busMsg}}</p>
+            </div>
+        `
+
+        Vue.component('component1', {
+            methods:{
+                doBus(){
+                    BUS.$emit('msg','hello-bus');
+                }
+            },
+            template: component1Html
+        })
+
+        Vue.component('component2', {
+            data(){
+                return {
+                    busMsg: ""
+                }
+            },
+            mounted(){
+                BUS.$on("msg",(msg)=>{
+                    this.busMsg = msg
+                })
+            },
+            template: component2Html
+        })
+
+        let app = new Vue({
+            el: "#app",
+        })
+
+    </script>
+</body>
+</html>
